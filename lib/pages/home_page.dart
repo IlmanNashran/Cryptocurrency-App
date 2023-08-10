@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:cryptocurrency_app/services/http_service.dart';
@@ -34,6 +35,7 @@ class _HomePageState extends State<HomePage> {
             mainAxisSize: MainAxisSize.max,
             children: [
               _selectedCoinDropDown(),
+              _dataWidgets(),
             ],
           ),
         ),
@@ -68,6 +70,46 @@ class _HomePageState extends State<HomePage> {
         color: Colors.white,
       ),
       underline: Container(),
+    );
+  }
+
+//fucntion for fecthing data api
+  Widget _dataWidgets() {
+    return FutureBuilder(
+      future: _http!.get('/coins/bitcoin'),
+      builder: (BuildContext _context, AsyncSnapshot _snapshot) {
+        if (_snapshot.hasData) {
+          Map _data = jsonDecode(
+            _snapshot.data.toString(),
+          );
+
+          num _usdPrice = _data["market_data"]["current_price"]["usd"];
+          return Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisSize: MainAxisSize.max,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              _currentPriceWidget(_usdPrice),
+            ],
+          );
+        } else {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+      },
+    );
+  }
+
+//display current rate
+  Widget _currentPriceWidget(num _rate) {
+    return Text(
+      "${_rate.toStringAsFixed(2)} USD",
+      style: const TextStyle(
+        color: Colors.white,
+        fontSize: 15,
+        fontWeight: FontWeight.w300,
+      ),
     );
   }
 }
