@@ -40,7 +40,7 @@ class MyApp extends StatelessWidget {
       title: 'cryptocurrency_app',
       theme: ThemeData(
         primarySwatch: Colors.blue,
-        scaffoldBackgroundColor: Color.fromARGB(160, 22, 56, 167),
+        scaffoldBackgroundColor: const Color.fromARGB(206, 19, 66, 207),
       ),
       home: HomePage(),
     );
