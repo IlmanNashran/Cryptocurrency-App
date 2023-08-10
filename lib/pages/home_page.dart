@@ -107,6 +107,17 @@ class _HomePageState extends State<HomePage> {
       "${_rate.toStringAsFixed(2)} USD",
       style: const TextStyle(
         color: Colors.white,
+        fontSize: 30,
+        fontWeight: FontWeight.w300,
+      ),
+    );
+  }
+
+  Widget _percetageChangeWidget(num _change) {
+    return Text(
+      "${_change.toString()}%",
+      style: const TextStyle(
+        color: Colors.white,
         fontSize: 15,
         fontWeight: FontWeight.w300,
       ),
