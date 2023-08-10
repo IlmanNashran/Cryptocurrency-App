@@ -90,6 +90,7 @@ class _HomePageState extends State<HomePage> {
             mainAxisSize: MainAxisSize.max,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
+              _coinImageWidget(_data["image"]["large"]),
               _currentPriceWidget(_usdPrice),
               _percentageChangeWidget(_change24h),
             ],
@@ -115,6 +116,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+//function for current percentage
   Widget _percentageChangeWidget(num _change) {
     return Text(
       "${_change.toString()}%",
@@ -122,6 +124,20 @@ class _HomePageState extends State<HomePage> {
         color: Colors.white,
         fontSize: 15,
         fontWeight: FontWeight.w300,
+      ),
+    );
+  }
+
+//function for fecth image
+  Widget _coinImageWidget(String _imgURL) {
+    return Container(
+      padding: EdgeInsets.symmetric(vertical: _deviceHeight! * 0.02),
+      height: _deviceHeight! * 0.15,
+      width: _deviceWidth! * 0.15,
+      decoration: BoxDecoration(
+        image: DecorationImage(
+          image: NetworkImage(_imgURL),
+        ),
       ),
     );
   }
