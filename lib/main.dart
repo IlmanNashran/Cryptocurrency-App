@@ -1,8 +1,10 @@
 import 'dart:convert';
 
+import 'package:cryptocurrency_app/models/app_config.dart';
 import 'package:cryptocurrency_app/pages/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get_it/get_it.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -14,7 +16,12 @@ Future<void> loadConfig() async {
   String _configContent =
       await rootBundle.loadString("assets/config/main.json");
   Map _configData = jsonDecode(_configContent);
- // print(_configData); the print is to make sure the Api in main.json execute properly
+  // print(_configData); the print is to make sure the Api in main.json execute properly
+  GetIt.instance.registerSingleton<AppConfig>(
+    AppConfig(
+      COIN_API_BASE_URL: _configData["COIN_API_BASE_URL"],
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
