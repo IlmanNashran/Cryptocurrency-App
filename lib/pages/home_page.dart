@@ -84,7 +84,7 @@ class _HomePageState extends State<HomePage> {
           );
 
           num _usdPrice = _data["market_data"]["current_price"]["usd"];
-          return  Column(
+          return Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             mainAxisSize: MainAxisSize.max,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -92,7 +92,6 @@ class _HomePageState extends State<HomePage> {
               _currentPriceWidget(_usdPrice),
             ],
           );
-        
         } else {
           return const Center(
             child: CircularProgressIndicator(),
@@ -106,6 +105,11 @@ class _HomePageState extends State<HomePage> {
   Widget _currentPriceWidget(num _rate) {
     return Text(
       "${_rate.toStringAsFixed(2)} USD",
+      style: const TextStyle(
+        color: Colors.white,
+        fontSize: 15,
+        fontWeight: FontWeight.w300,
+      ),
     );
   }
 }
