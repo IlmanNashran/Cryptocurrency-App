@@ -104,7 +104,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-//display current rate
+//display the current rate
   Widget _currentPriceWidget(num _rate) {
     return Text(
       "${_rate.toStringAsFixed(2)} USD",
