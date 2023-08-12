@@ -110,7 +110,7 @@ class _HomePageState extends State<HomePage> {
                     context,
                     MaterialPageRoute(
                       builder: (BuildContext _context) {
-                        return DetailsPage();
+                        return DetailsPage(rates: _exchangeRates);
                       },
                     ),
                   );
