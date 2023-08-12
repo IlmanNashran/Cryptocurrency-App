@@ -7,7 +7,8 @@ class DetailsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List _currencies = rates.keys.toList();
+    List _currencies =
+        rates.keys.toList(); // create list for rates value and key
     List _exchangeRates = rates.values.toList();
     return Scaffold(
       body: SafeArea(
