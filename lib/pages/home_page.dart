@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:cryptocurrency_app/pages/details_page.dart';
 import 'package:cryptocurrency_app/services/http_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
@@ -14,6 +15,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   double? _deviceHeight, _deviceWidth;
+  String? _selectedCoin = "bitcoin"; //variable for holding the dropdown input
   HTTPService? _http;
 
   @override
@@ -44,7 +46,13 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _selectedCoinDropDown() {
-    List<String> _coins = ["bitcoin"];
+    List<String> _coins = [
+      "bitcoin",
+      "ethereum",
+      "tether",
+      "cardano",
+      "ripple"
+    ];
     List<DropdownMenuItem<String>> _items = _coins
         .map(
           (e) => DropdownMenuItem(
@@ -61,9 +69,13 @@ class _HomePageState extends State<HomePage> {
         )
         .toList();
     return DropdownButton(
-      value: _coins.first,
+      value: _selectedCoin,
       items: _items,
-      onChanged: (_value) {},
+      onChanged: (_value) {
+        setState(() {
+          _selectedCoin = _value;
+        });
+      },
       dropdownColor: const Color.fromARGB(202, 65, 30, 221),
       icon: const Icon(
         Icons.arrow_drop_down_sharp,
@@ -76,7 +88,7 @@ class _HomePageState extends State<HomePage> {
 //fucntion for fecthing data api
   Widget _dataWidgets() {
     return FutureBuilder(
-      future: _http!.get('/coins/bitcoin'),
+      future: _http!.get('/coins/$_selectedCoin'),
       builder: (BuildContext _context, AsyncSnapshot _snapshot) {
         if (_snapshot.hasData) {
           Map _data = jsonDecode(
@@ -90,9 +102,22 @@ class _HomePageState extends State<HomePage> {
             mainAxisSize: MainAxisSize.max,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              _coinImageWidget(_data["image"]["large"]),
+              GestureDetector(
+                onDoubleTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (BuildContext _context) {
+                        return DetailsPage();
+                      },
+                    ),
+                  );
+                },
+                child: _coinImageWidget(_data["image"]["large"]),
+              ),
               _currentPriceWidget(_usdPrice),
               _percentageChangeWidget(_change24h),
+              _descriptionCardWidget(_data["description"]["en"]),
             ],
           );
         } else {
@@ -137,6 +162,28 @@ class _HomePageState extends State<HomePage> {
       decoration: BoxDecoration(
         image: DecorationImage(
           image: NetworkImage(_imgURL),
+        ),
+      ),
+    );
+  }
+
+//function description
+  Widget _descriptionCardWidget(String _description) {
+    return Container(
+      height: _deviceHeight! * 0.45,
+      width: _deviceWidth! * 0.90,
+      margin: EdgeInsets.symmetric(
+        vertical: _deviceHeight! * 0.05,
+      ),
+      padding: EdgeInsets.symmetric(
+        vertical: _deviceHeight! * 0.01,
+        horizontal: _deviceHeight! * 0.01,
+      ),
+      color: const Color.fromRGBO(83, 88, 206, 0.05),
+      child: Text(
+        _description,
+        style: const TextStyle(
+          color: Colors.white,
         ),
       ),
     );
